@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Nexus — Events</title>
+  <style>
+    /* ============================================================
+       POKÉMON NEXUS — EVENTS DESIGN SYSTEM
+       ============================================================ */
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg-dark: #020612;
+      --panel-bg: rgba(6, 12, 28, 0.78);
+      --border-blue: rgba(12, 112, 255, 0.28);
+      --yellow: #ffcb05;
+      --red: #ff3d00;
+      --blue: #0c70ff;
+      --green: #10b981;
+      --purple: #a855f7;
+      --orange: #f97316;
+      --silver: #cbd5e1;
+      --bronze: #b45309;
+      --text-gray: #94a3b8;
+      --radius-card: 20px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: #020612 url("background.jpg") center/cover no-repeat fixed;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(6, 12, 28, 0.45) 0%, rgba(2, 6, 18, 0.85) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Sparks Container */
+    #sparks-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .spark {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(12, 112, 255, 0.25);
+      box-shadow: 0 0 10px rgba(12, 112, 255, 0.6);
+      pointer-events: none;
+      opacity: 0.5;
+      animation: floatSpark 12s linear infinite;
+    }
+
+    @keyframes floatSpark {
+      0% { transform: translateY(105vh) scale(0.8); opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-5vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Fire Sparks */
+    .fire-sparks-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .fire-spark {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(255, 120, 0, 0.6);
+      box-shadow: 0 0 8px rgba(255, 160, 0, 0.8), 0 0 15px rgba(255, 61, 0, 0.6);
+      pointer-events: none;
+      opacity: 0.8;
+      animation: floatFireSpark 6s linear infinite;
+    }
+
+    @keyframes floatFireSpark {
+      0% { transform: translateY(105%) scale(0.7); opacity: 0; }
+      10% { opacity: 0.9; }
+      90% { opacity: 0.9; }
+      100% { transform: translateY(-10%) translateX(var(--rx, 30px)) scale(1.4); opacity: 0; }
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1180px, 92vw);
+      height: 72px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      border-radius: 24px;
+      background: rgba(5, 8, 18, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(255, 88, 0, 0.35);
+    }
+
+    .nav-brand {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 24px;
+      color: #ffcb05;
+      -webkit-text-stroke: 1.2px #0757a8;
+      text-shadow: 0 0 12px #ff6b00;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 100, 0, 0.22);
+      text-shadow: 0 0 12px #ff7a00;
+    }
+
+    .nav-links a.active {
+      background: rgba(255, 100, 0, 0.35);
+      text-shadow: 0 0 12px #ff7a00;
+      box-shadow: inset 0 0 10px rgba(255, 100, 0, 0.5);
+      border: 1px solid rgba(255, 100, 0, 0.4);
+    }
+
+    .trainer-profile-card-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+      padding: 4px 10px 4px 5px;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+
+    .trainer-avatar-nav {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ffd86b url("trainer_character.png?v=12") no-repeat center 15%/210%;
+      border: 1.5px solid var(--yellow);
+    }
+
+    .trainer-info-block-nav {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .trainer-info-name-nav {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .trainer-info-level-nav {
+      font-size: 0.6rem;
+      color: var(--yellow);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .fire-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -10px;
+      height: 14px;
+      background: linear-gradient(90deg, transparent, #ff3000, #ffd000, #ff3000, transparent);
+      filter: blur(8px);
+      opacity: .8;
+      animation: fireMove 1.8s infinite alternate;
+    }
+
+    @keyframes fireMove {
+      from { transform: translateX(-25px); opacity: .45; }
+      to { transform: translateX(25px); opacity: 1; }
+    }
+
+    /* MAIN CONTAINER SETUP */
+    main.page {
+      max-width: 1180px;
+      width: 92vw;
+      margin: 120px auto 40px;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* HERO PANEL WITH COUNTDOWN */
+    .hero-panel {
+      position: relative;
+      background: rgba(6, 12, 28, 0.6);
+      border: 1.2px solid rgba(255, 107, 0, 0.3);
+      border-radius: var(--radius-card);
+      padding: 30px 40px;
+      backdrop-filter: blur(12px);
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      gap: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(255, 107, 0, 0.15);
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: left;
+    }
+
+    .hero-tag {
+      color: var(--yellow);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+      display: inline-block;
+      text-shadow: 0 0 10px rgba(255, 203, 5, 0.4);
+    }
+
+    .hero-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.2rem;
+      margin: 0 0 12px;
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-desc {
+      color: var(--text-gray);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0 0 20px;
+    }
+
+    /* COUNTDOWN TIMER */
+    .countdown-card {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1.2px solid var(--border-blue);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      text-align: center;
+      z-index: 3;
+      position: relative;
+    }
+
+    .countdown-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--yellow);
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .countdown-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .countdown-val {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .countdown-unit {
+      font-size: 0.52rem;
+      font-weight: 700;
+      color: var(--text-gray);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .countdown-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* SPLIT COLUMNS */
+    .page-columns {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+    }
+
+    /* GLASS PANELS */
+    .glass-panel {
+      background: var(--panel-bg);
+      border: 1.2px solid var(--border-blue);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), 0 6px 18px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #ffd86b;
+      letter-spacing: 0.08em;
+      margin: 0 0 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 10px;
+    }
+
+    /* CALENDAR VIEW */
+    .calendar-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .calendar-month-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #fff;
+      padding: 0 4px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .calendar-day-header {
+      font-size: 0.58rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-gray);
+      text-align: center;
+      padding: 4px 0;
+    }
+
+    .calendar-cell {
+      aspect-ratio: 1;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .calendar-cell:hover:not(.empty) {
+      background: rgba(12, 112, 255, 0.15);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    .calendar-cell.empty {
+      background: transparent;
+      border-color: transparent;
+      cursor: default;
+    }
+
+    .calendar-cell.has-event {
+      border-color: rgba(255, 203, 5, 0.4);
+      background: rgba(255, 203, 5, 0.06);
+      color: var(--yellow);
+      font-weight: 800;
+    }
+
+    .calendar-cell.has-event::after {
+      content: "";
+      position: absolute;
+      bottom: 3px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 4px var(--yellow);
+    }
+
+    .calendar-cell.active-selection {
+      background: rgba(255, 100, 0, 0.3) !important;
+      border-color: var(--red) !important;
+      color: #fff !important;
+      font-weight: 800;
+    }
+
+    /* TABS */
+    .tabs-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 10px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-gray);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      color: var(--yellow);
+      background: rgba(255, 203, 5, 0.08);
+      text-shadow: 0 0 8px rgba(255, 203, 5, 0.3);
+    }
+
+    /* FILTERS PANEL */
+    .filters-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter-tab {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      color: var(--text-gray);
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .filter-tab:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    .filter-tab.active {
+      background: rgba(255, 100, 0, 0.25);
+      border-color: rgba(255, 100, 0, 0.4);
+      color: #fff;
+      text-shadow: 0 0 10px #ff7a00;
+      box-shadow: inset 0 0 8px rgba(255, 100, 0, 0.3);
+    }
+
+    /* EVENT ROSTER FEED */
+    .events-feed {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .event-card {
+      background: rgba(6, 12, 28, 0.45);
+      border: 1.2px solid rgba(12, 112, 255, 0.15);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .event-card:hover {
+      background: rgba(6, 12, 28, 0.6);
+      border-color: rgba(12, 112, 255, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .event-banner {
+      height: 120px;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .event-type-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 0.55rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(12, 112, 255, 0.2);
+      border: 1px solid rgba(12, 112, 255, 0.3);
+      color: #38bdf8;
+    }
+
+    .event-card.registered::after {
+      content: "REGISTERED";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.55rem;
+      font-weight: 900;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(16, 185, 129, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--green);
+    }
+
+    .event-info {
+      padding: 16px;
+      text-align: left;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .event-date-row {
+      font-size: 0.65rem;
+      color: var(--yellow);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .event-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 6px;
+    }
+
+    .event-desc-snippet {
+      font-size: 0.72rem;
+      color: var(--text-gray);
+      margin: 0 0 12px;
+      line-height: 1.4;
+    }
+
+    .event-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      color: var(--text-gray);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 12px;
+      margin-top: auto;
+    }
+
+    .event-loc {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .event-rsvps {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .event-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    /* MODAL OVERLAYS */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 18, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--panel-bg);
+      border: 1.5px solid var(--border-blue);
+      border-radius: var(--radius-card);
+      width: min(720px, 94vw);
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      animation: modalSlide 0.35s cubic-bezier(0.1, 0.8, 0.2, 1);
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    .modal-card::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 1.2rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 61, 0, 0.2);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* DETAILS SHEET CONTENT */
+    .detail-banner {
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .detail-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent, var(--bg-dark));
+    }
+
+    .detail-body {
+      padding: 24px;
+      text-align: left;
+    }
+
+    .detail-heading-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .detail-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.6rem;
+      margin: 0;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .detail-desc {
+      font-size: 0.8rem;
+      color: var(--text-gray);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* GRID FOR DETAILED INFO */
+    .detail-tabs-container {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 20px;
+    }
+
+    .detail-sub-section {
+      margin-bottom: 20px;
+    }
+
+    .detail-sub-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #ffd86b;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    /* FAQ ACCORDION */
+    .faq-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      overflow: hidden;
+    }
+
+    .faq-header {
+      padding: 10px 14px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .faq-header:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .faq-body {
+      padding: 0 14px 10px;
+      font-size: 0.7rem;
+      color: var(--text-gray);
+      line-height: 1.5;
+      display: none;
+    }
+
+    /* SPEAKERS */
+    .speaker-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      margin-bottom: 6px;
+    }
+
+    .speaker-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid var(--yellow);
+    }
+
+    .speaker-name {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .speaker-role {
+      font-size: 0.58rem;
+      color: var(--text-gray);
+    }
+
+    /* REGISTRATION / TICKET */
+    .ticket-card {
+      background: linear-gradient(135deg, rgba(12, 112, 255, 0.15) 0%, rgba(6, 12, 28, 0.8) 100%);
+      border: 2px dashed rgba(12, 112, 255, 0.4);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      margin-top: 10px;
+    }
+
+    .ticket-logo {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem;
+      color: var(--yellow);
+      margin-bottom: 4px;
+      text-shadow: 0 0 10px rgba(255,203,5,0.3);
+    }
+
+    .ticket-code {
+      font-family: monospace;
+      font-size: 1.2rem;
+      color: var(--yellow);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 16px;
+      border-radius: 6px;
+      display: inline-block;
+      letter-spacing: 0.15em;
+      margin: 12px 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ORGANIZER DASHBOARD */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .form-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-gray);
+      letter-spacing: 0.05em;
+    }
+
+    .form-input {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 10px 14px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 10px rgba(12, 112, 255, 0.35);
+    }
+
+    /* BUTTONS */
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #ff3d00, #ffcb05);
+      color: #130700;
+      box-shadow: 0 0 10px rgba(255, 61, 0, 0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      box-shadow: 0 0 16px rgba(255, 61, 0, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    .btn-sm { padding: 6px 10px; font-size: 0.65rem; }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 50px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1.5px solid var(--yellow);
+      border-radius: 12px;
+      padding: 12px 24px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.82rem;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 203, 5, 0.25);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.2, 1);
+    }
+
+    #toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    /* RESPONSIVE LAYOUT */
+    @media (max-width: 900px) {
+      .hero-panel {
+        grid-template-columns: 1fr;
+        padding: 30px;
+      }
+      .page-columns {
+        grid-template-columns: 1fr;
+      }
+      .detail-tabs-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .nav-links {
+        gap: 4px;
+      }
+      .nav-links a {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .navbar {
+        height: auto;
+        padding: 8px 16px;
+        flex-direction: column;
+        gap: 8px;
+        border-radius: 16px;
+        top: 8px;
+      }
+      .nav-links {
+        overflow-x: auto;
+        max-width: 100%;
+        width: 100%;
+        justify-content: flex-start;
+        padding-bottom: 4px;
+      }
+      .nav-links::-webkit-scrollbar {
+        display: none;
+      }
+      main.page {
+        margin-top: 150px;
+      }
+      .trainer-profile-card-nav {
+        margin-left: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sparks Container -->
+  <div id="sparks-container"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <svg class="pokeball-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:1.2em;height:1.2em;vertical-align:middle;margin-right:8px;display:inline-block;filter:drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));">
+        <circle cx="50" cy="50" r="48" fill="#fff" stroke="#000" stroke-width="8" />
+        <path d="M 50,50 M 2,50 A 48,48 0 0,1 98,50 Z" fill="#ff1c1c" stroke="#000" stroke-width="8" />
+        <line x1="2" y1="50" x2="98" y2="50" stroke="#000" stroke-width="8" />
+        <circle cx="50" cy="50" r="18" fill="#fff" stroke="#000" stroke-width="8" />
+        <circle cx="50" cy="50" r="8" fill="#fff" stroke="#000" stroke-width="2" />
+      </svg>
+      Pokémon Nexus
+      <span id="trainerWelcome" style="font-size:13px;color:#ffd86b;margin-left:10px"></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="pokedex.html">Pokédex</a>
+      <a href="battle.html">Battle</a>
+      <a href="kingdom-map.html">Kingdom Map</a>
+      <a href="inventory.html">Inventory</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="profile.html">Profile</a>
+      <a href="achievements.html">Achievements</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="events.html" class="active">Events</a>
+      <a href="admin/admin.html" id="adminLink" style="display:none">Admin</a>
+      
+      <!-- Active Trainer Avatar inside navbar -->
+      <div class="trainer-profile-card-nav" onclick="location.href='profile.html'">
+        <div class="trainer-avatar-nav"></div>
+        <div class="trainer-info-block-nav">
+          <span class="trainer-info-name-nav" id="nav-trainer-name">Shashank</span>
+          <span class="trainer-info-level-nav" id="nav-trainer-level">Level 80</span>
+        </div>
+      </div>
+    </div>
+    <div class="fire-strip"></div>
+  </nav>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <!-- MAIN PAGE CONTENT -->
+  <main class="page">
+    
+    <!-- HERO PANEL WITH TIMER -->
+    <section class="hero-panel">
+      <!-- Fire sparks inside hero -->
+      <div class="fire-sparks-container" id="hero-fire-sparks"></div>
+      
+      <div class="hero-content">
+        <span class="hero-tag">Live Rallies</span>
+        <h1 class="hero-title">Nexus Events</h1>
+        <p class="hero-desc">Register for community-wide raids, trainer tournaments, breeding seminars, and regional gatherings. Earn exclusive loot and trophies by participating!</p>
+        <button class="btn btn-primary" onclick="scrollToElement('roster-feed-section')">
+          View Events Feed
+        </button>
+      </div>
+
+      <!-- COUNTDOWN TIMER CARD -->
+      <div class="countdown-card" id="main-countdown-card">
+        <span class="countdown-label">Next Event Countdown</span>
+        <div class="countdown-grid">
+          <div class="countdown-item"><span class="countdown-val" id="timer-days">00</span><span class="countdown-unit">Days</span></div>
+          <div class="countdown-item"><span class="countdown-val" id="timer-hours">00</span><span class="countdown-unit">Hours</span></div>
+          <div class="countdown-item"><span class="countdown-val" id="timer-mins">00</span><span class="countdown-unit">Mins</span></div>
+          <div class="countdown-item"><span class="countdown-val" id="timer-secs">00</span><span class="countdown-unit">Secs</span></div>
+        </div>
+        <span class="countdown-title" id="countdown-event-title">Primal Kyogre Raid Clash</span>
+      </div>
+    </section>
+
+    <!-- CONTENT Split Columns -->
+    <div class="page-columns">
+      
+      <!-- LEFT COLUMN: CALENDAR AND PANEL CONTROLS -->
+      <section style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- CALENDAR GLASS PANEL -->
+        <div class="glass-panel">
+          <h2 class="section-title">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--blue)"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+            Interactive Calendar
+          </h2>
+          
+          <div class="calendar-wrapper">
+            <div class="calendar-month-row">
+              <button class="btn btn-ghost btn-sm" onclick="changeMonth(-1)">&lt;</button>
+              <span id="calendar-month-year">July 2026</span>
+              <button class="btn btn-ghost btn-sm" onclick="changeMonth(1)">&gt;</button>
+            </div>
+            
+            <div class="calendar-grid">
+              <div class="calendar-day-header">Su</div>
+              <div class="calendar-day-header">Mo</div>
+              <div class="calendar-day-header">Tu</div>
+              <div class="calendar-day-header">We</div>
+              <div class="calendar-day-header">Th</div>
+              <div class="calendar-day-header">Fr</div>
+              <div class="calendar-day-header">Sa</div>
+            </div>
+            <div class="calendar-grid" id="calendar-grid-cells">
+              <!-- Calendar cells rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- MY REGISTERED EVENTS PANEL -->
+        <div class="glass-panel">
+          <h2 class="section-title">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--green)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            My Registrations
+          </h2>
+          <div style="font-size:0.75rem; color:var(--text-gray); display:flex; flex-direction:column; gap:8px;" id="registered-list-panel">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: FEED AND MAIN VIEWPORTS -->
+      <section id="roster-feed-section">
+        
+        <!-- DASHBOARD CONTROLS (TABS & FILTERS) -->
+        <div class="glass-panel" style="margin-bottom: 20px;">
+          <div class="tabs-row">
+            <button class="tab-btn active" id="view-tab-feed" onclick="switchMainView('feed')">Events Feed</button>
+            <button class="tab-btn" id="view-tab-create" onclick="switchMainView('create')">Organizer Dashboard</button>
+          </div>
+          
+          <!-- FILTERS PANEL -->
+          <div class="filters-row" id="feed-filters-row">
+            <button class="filter-tab active" onclick="filterEvents('all', this)">All Types</button>
+            <button class="filter-tab" onclick="filterEvents('raid', this)">Raids</button>
+            <button class="filter-tab" onclick="filterEvents('tournament', this)">Tournaments</button>
+            <button class="filter-tab" onclick="filterEvents('meetup', this)">Meetups</button>
+            <button class="filter-tab" onclick="filterEvents('community', this)">Seminars</button>
+          </div>
+        </div>
+
+        <!-- MAIN CONTAINER FOR TABS -->
+        <div id="main-view-container">
+          
+          <!-- VIEW 1: EVENT GRID FEED -->
+          <div class="events-feed" id="events-grid-feed">
+            <!-- Dynamic Event Cards -->
+          </div>
+
+          <!-- VIEW 2: CREATE EVENT PANEL -->
+          <div class="glass-panel" id="create-event-panel" style="display: none;">
+            <h3 class="section-title">Create New Event Listing</h3>
+            <form id="create-event-form" onsubmit="handleCreateEvent(event)" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div class="form-group" style="grid-column: 1/-1;">
+                <label class="form-label">Event Title</label>
+                <input type="text" class="form-input" id="new-evt-title" required placeholder="e.g. Cerulean Gym Water Combat Cup">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Event Category</label>
+                <select class="form-input" id="new-evt-cat" required style="background:#020612">
+                  <option value="tournament">Tournament</option>
+                  <option value="raid">Raid</option>
+                  <option value="meetup">Meetup</option>
+                  <option value="community">Seminar / Workshop</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Event Date (YYYY-MM-DD)</label>
+                <input type="date" class="form-input" id="new-evt-date" required value="2026-07-15">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Venue Location</label>
+                <input type="text" class="form-input" id="new-evt-loc" required placeholder="e.g. Cerulean City Gym">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Max Capacity (Trainers)</label>
+                <input type="number" class="form-input" id="new-evt-cap" required value="50">
+              </div>
+              <div class="form-group" style="grid-column: 1/-1;">
+                <label class="form-label">Event Description</label>
+                <textarea class="form-input" id="new-evt-desc" rows="3" required placeholder="Explain entry requirements, special prizes, rules..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Guest Speaker / Host</label>
+                <input type="text" class="form-input" id="new-evt-speaker" placeholder="e.g. Gym Leader Misty">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Speaker Role</label>
+                <input type="text" class="form-input" id="new-evt-role" placeholder="e.g. Water Specialty Gym Leader">
+              </div>
+              <div style="grid-column: 1/-1; text-align: right; margin-top: 10px;">
+                <button class="btn btn-primary" type="submit">Publish Event</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- EVENT DETAILS MODAL -->
+  <div class="modal-overlay" id="details-modal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeDetailsModal()">&times;</button>
+      <div class="detail-banner" id="det-banner" style="background-image: url('pokemon_region_landscape.png');">
+        <div class="detail-banner-overlay"></div>
+      </div>
+      <div class="detail-body">
+        <div class="detail-heading-row">
+          <div>
+            <h2 class="detail-title" id="det-title">Indigo Plateau Live Championship</h2>
+            <div class="event-date-row" style="margin-top: 4px;" id="det-date">July 10, 2026 • 10:00 AM</div>
+          </div>
+          <button class="btn btn-primary" id="det-register-btn" onclick="openRegistrationModal()">RSVP / Register</button>
+        </div>
+        <p class="detail-desc" id="det-desc">The ultimate battle event! 32 elite trainers face off in a single-elimination tournament bracket to claim the Nexus Championship Belt.</p>
+        
+        <div class="detail-tabs-container">
+          <!-- LEFT SUBCOLUMN: FAQs & Schedule -->
+          <div>
+            <div class="detail-sub-section">
+              <h3 class="detail-sub-title">Tournament Schedule</h3>
+              <div style="font-size:0.75rem; color:var(--text-gray); display:flex; flex-direction:column; gap:8px;" id="det-schedule">
+                <!-- Scheduled items -->
+              </div>
+            </div>
+            
+            <div class="detail-sub-section">
+              <h3 class="detail-sub-title">Frequently Asked Questions</h3>
+              <div id="det-faqs">
+                <div class="faq-item">
+                  <div class="faq-header" onclick="toggleFaq(this)">What should I bring? <span>+</span></div>
+                  <div class="faq-body">You need a valid Trainer License ID, and your team must have precisely 6 Pokémon registered on your Nexus profile. Level caps are enforced at Lv.80.</div>
+                </div>
+                <div class="faq-item">
+                  <div class="faq-header" onclick="toggleFaq(this)">What are the rewards? <span>+</span></div>
+                  <div class="faq-body">The Champion wins the Nexus Trophy Belt, 50,000 trainer credits, and an entry slot into the Master Champion Global Hall of Fame.</div>
+                </div>
+                <div class="faq-item">
+                  <div class="faq-header" onclick="toggleFaq(this)">Is spectating allowed? <span>+</span></div>
+                  <div class="faq-body">Yes! Live streams are available at all Battle centers, and entry to Indigo Plateau stadium is free for spectators.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- RIGHT SUBCOLUMN: SPEAKERS & VENUE -->
+          <div>
+            <div class="detail-sub-section">
+              <h3 class="detail-sub-title">Host & Speakers</h3>
+              <div id="det-speakers">
+                <!-- Speakers rendered here -->
+              </div>
+            </div>
+            
+            <div class="detail-sub-section">
+              <h3 class="detail-sub-title">Venue Details</h3>
+              <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:10px; font-size:0.7rem; color:var(--text-gray);">
+                <strong style="color:#fff; display:block; margin-bottom:4px;" id="det-venue-title">Indigo Plateau Stadium</strong>
+                <span id="det-venue-desc">Kanto Region Central Peak. Volumetric holographic battle floor. Seating capacity: 50,000.</span>
+                <!-- Map representation -->
+                <div style="height:80px; background:rgba(12, 112, 255, 0.08) url('ash_pikachu_sunset.png') no-repeat center/cover; border:1px solid rgba(255,255,255,0.1); border-radius:6px; margin-top:8px; display:flex; align-items:center; justify-content:center; color:var(--yellow); font-weight:800; text-shadow:0 0 6px #000;">
+                  [ SIMULATED MAP ]
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRATION CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="register-modal" style="z-index: 1100;">
+    <div class="modal-card" style="width: 440px;">
+      <button class="modal-close" onclick="closeRegisterModal()">&times;</button>
+      <div class="detail-body" style="padding: 24px;">
+        <h2 class="detail-title" style="text-align: center; margin-bottom: 8px;">RSVP Confirmation</h2>
+        <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 20px;">Confirm your registration for the event below. Your unique ticket code will be generated instantly.</p>
+        
+        <div class="form-group">
+          <label class="form-label">Trainer Name</label>
+          <input type="text" class="form-input" id="rsvp-trainer-name" required value="Shashank" readonly>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Select Mascot Avatar Mascot</label>
+          <select class="form-input" id="rsvp-avatar" style="background:#020612" onchange="playSound('click')">
+            <option value="6">Charizard</option>
+            <option value="25">Pikachu</option>
+            <option value="448">Lucario</option>
+            <option value="9">Blastoise</option>
+            <option value="3">Venusaur</option>
+          </select>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+          <button class="btn btn-primary" onclick="confirmRSVP()" style="width: 100%;">Confirm RSVP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKET GENERATOR MODAL -->
+  <div class="modal-overlay" id="ticket-modal" style="z-index: 1200;">
+    <div class="modal-card" style="width: 400px;">
+      <button class="modal-close" onclick="closeTicketModal()">&times;</button>
+      <div class="detail-body" style="padding: 24px; text-align: center;">
+        <div class="ticket-card">
+          <div class="ticket-logo">Pokémon Nexus</div>
+          <span style="font-size: 0.6rem; text-transform: uppercase; font-weight: 800; color: var(--text-gray); letter-spacing: 0.1em;">EVENT ADMISSION TICKET</span>
+          
+          <h3 style="font-size: 1rem; color: #fff; margin: 12px 0 2px;" id="tkt-evt-name">Indigo Plateau Live Championship</h3>
+          <span style="font-size: 0.68rem; color: var(--yellow);" id="tkt-evt-date">July 10, 2026</span>
+          
+          <div class="ticket-code" id="tkt-code">NX-TKT-58472</div>
+          
+          <div style="text-align: left; background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 10px; font-size: 0.68rem;">
+            <strong>Admitted:</strong> <span id="tkt-trainer-name">Shashank</span><br>
+            <strong>License ID:</strong> #NX-784512<br>
+            <strong>Seat Level:</strong> Arena Standard (Aisle 12)
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="printTicket()" style="margin-top: 20px; width: 100%;">Print Ticket</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Audio Context Synthesizer
+    function playSound(type) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+        if (type === 'hover') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(880, now + 0.05);
+          gain.gain.setValueAtTime(0.012, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(580, now);
+          osc.frequency.setValueAtTime(320, now + 0.06);
+          gain.gain.setValueAtTime(0.025, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+          gain.gain.setValueAtTime(0.035, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        }
+      } catch (err) {
+        console.warn("Audio Context blocked:", err);
+      }
+    }
+
+    function attachSoundListeners() {
+      document.querySelectorAll("button, a, .filter-tab, .tab-btn, .calendar-cell:not(.empty), .faq-header, select").forEach(elem => {
+        elem.addEventListener("mouseenter", () => playSound("hover"));
+        elem.addEventListener("click", () => playSound("click"));
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    function scrollToElement(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Spark Particles
+    const sparksContainer = document.getElementById("sparks-container");
+    for (let i = 0; i < 20; i++) {
+      const spark = document.createElement("div");
+      spark.className = 'spark';
+      spark.style.left = Math.random() * 100 + "vw";
+      spark.style.animationDuration = (8 + Math.random() * 6) + "s";
+      spark.style.animationDelay = Math.random() * 4 + "s";
+      sparksContainer.appendChild(spark);
+    }
+
+    // Fire sparks in Hero
+    const heroFireSparks = document.getElementById("hero-fire-sparks");
+    for (let i = 0; i < 15; i++) {
+      const fspark = document.createElement("div");
+      fspark.className = 'fire-spark';
+      fspark.style.left = Math.random() * 100 + "%";
+      fspark.style.animationDuration = (4 + Math.random() * 4) + "s";
+      fspark.style.animationDelay = Math.random() * 3 + "s";
+      fspark.style.setProperty('--rx', (Math.random() * 60 - 30) + 'px');
+      heroFireSparks.appendChild(fspark);
+    }
+
+    // Database Model for Events
+    let eventsList = [
+      {
+        id: 1,
+        title: "Kyogre Primal Raid Clash",
+        desc: "Team up with other master trainers to battle, defeat and capture Primal Kyogre inside Marine Cave. Bring Electric and Grass typed Pokémon for advantage.",
+        date: "2026-07-05",
+        time: "14:00",
+        loc: "Marine Cave (Hoenn)",
+        cat: "raid",
+        cap: 50,
+        rsvps: 42,
+        banner: "pokemon_world_map.png",
+        speaker: "Wallace",
+        role: "Sootopolis Gym Leader",
+        speakerAvatar: "448",
+        schedule: ["14:00 - Lobby Formation", "14:15 - Combat Commences", "14:45 - Catching Phase", "15:00 - Reward Distribution"]
+      },
+      {
+        id: 2,
+        title: "Indigo Plateau Live Championship",
+        desc: "The ultimate tournament event! 32 elite trainers face off in single-elimination battles to win the prestigious Nexus Championship Trophy Belt.",
+        date: "2026-07-10",
+        time: "10:00",
+        loc: "Indigo Plateau (Kanto)",
+        cat: "tournament",
+        cap: 32,
+        rsvps: 28,
+        banner: "pokemon_region_landscape.png",
+        speaker: "Prof. Oak",
+        role: "Pokemon Research Authority",
+        speakerAvatar: "3",
+        schedule: ["10:00 - Bracket Draw", "10:30 - Round of 32 Starts", "13:00 - Lunch Break", "14:00 - Semi-Finals", "16:00 - Grand Final Battle"]
+      },
+      {
+        id: 3,
+        title: "Viridian Forest Pikachu Meetup",
+        desc: "Celebrate Pikachu day with fellow trainers. Features increased spawn rates for Pikachu, trade lounges, and custom Pikachu avatar items.",
+        date: "2026-07-04",
+        time: "09:00",
+        loc: "Viridian Forest (Kanto)",
+        cat: "meetup",
+        cap: 150,
+        rsvps: 120,
+        banner: "ash_pikachu_sunset.png",
+        speaker: "Trainer Ash",
+        role: "Kanto Champion Mentor",
+        speakerAvatar: "25",
+        schedule: ["09:00 - Check-in & Badge Claim", "10:00 - Wild Spawn Activation", "12:00 - Trade Corner Opens", "14:00 - Mascot Parade"]
+      },
+      {
+        id: 4,
+        title: "Egg Groups & Breeding Workshop",
+        desc: "Learn advanced egg hatching mechanics, IV inheritance, and training optimizations directly from Academy staff.",
+        date: "2026-07-08",
+        time: "11:00",
+        loc: "Mesagoza Academy (Paldea)",
+        cat: "community",
+        cap: 80,
+        rsvps: 52,
+        banner: "trainer_character.png",
+        speaker: "Prof. Jacq",
+        role: "Biology Academy Professor",
+        speakerAvatar: "6",
+        schedule: ["11:00 - Breeding Essentials", "12:00 - IV Inheritance Rules", "13:00 - Hatching Optimization", "14:00 - Live Hatching Demo"]
+      }
+    ];
+
+    // Local Variables
+    let currentYear = 2026;
+    let currentMonth = 6; // July (0-indexed is June: 6)
+    let selectedEventId = null;
+    let rsvpList = []; // Array of event IDs user registered for
+    let currentFilter = 'all';
+
+    // Countdown Timer logic
+    function initCountdown() {
+      // Find nearest event in future
+      const now = new Date().getTime();
+      let nearest = null;
+      let minDiff = Infinity;
+
+      eventsList.forEach(e => {
+        const t = new Date(e.date + 'T' + e.time).getTime();
+        const diff = t - now;
+        if (diff > 0 && diff < minDiff) {
+          minDiff = diff;
+          nearest = e;
+        }
+      });
+
+      if (!nearest) {
+        document.getElementById("main-countdown-card").style.display = "none";
+        return;
+      }
+
+      document.getElementById("main-countdown-card").style.display = "block";
+      document.getElementById("countdown-event-title").textContent = nearest.title;
+
+      const countdownDate = new Date(nearest.date + 'T' + nearest.time).getTime();
+
+      const timerInterval = setInterval(() => {
+        const curTime = new Date().getTime();
+        const distance = countdownDate - curTime;
+
+        if (distance < 0) {
+          clearInterval(timerInterval);
+          initCountdown(); // Recalculate nearest
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("timer-days").textContent = String(days).padStart(2, '0');
+        document.getElementById("timer-hours").textContent = String(hours).padStart(2, '0');
+        document.getElementById("timer-mins").textContent = String(minutes).padStart(2, '0');
+        document.getElementById("timer-secs").textContent = String(seconds).padStart(2, '0');
+      }, 1000);
+    }
+
+    // Interactive Calendar
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    function renderCalendar() {
+      const title = document.getElementById("calendar-month-year");
+      title.textContent = months[currentMonth] + " " + currentYear;
+
+      const cellsContainer = document.getElementById("calendar-grid-cells");
+      cellsContainer.innerHTML = '';
+
+      // First day of month
+      const firstDayIdx = new Date(currentYear, currentMonth, 1).getDay();
+      const numDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      // Render blanks
+      for (let i = 0; i < firstDayIdx; i++) {
+        const cell = document.createElement("div");
+        cell.className = "calendar-cell empty";
+        cellsContainer.appendChild(cell);
+      }
+
+      // Render days
+      for (let d = 1; d <= numDays; d++) {
+        const cell = document.createElement("div");
+        cell.className = "calendar-cell";
+        cell.textContent = d;
+
+        // format date string YYYY-MM-DD
+        const dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+        
+        // check if this date has event
+        const hasEvent = eventsList.some(e => e.date === dateStr);
+        if (hasEvent) {
+          cell.classList.add("has-event");
+          
+          cell.onclick = () => {
+            playSound("click");
+            // Find event and open details
+            const evt = eventsList.find(e => e.date === dateStr);
+            if (evt) openDetails(evt.id);
+          };
+        } else {
+          cell.onclick = () => {
+            playSound("click");
+            document.querySelectorAll(".calendar-cell").forEach(c => c.classList.remove("active-selection"));
+            cell.classList.add("active-selection");
+          };
+        }
+
+        cellsContainer.appendChild(cell);
+      }
+      attachSoundListeners();
+    }
+
+    window.changeMonth = function(dir) {
+      currentMonth += dir;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar();
+    }
+
+    // Switch between Events Feed & Organizer Form
+    window.switchMainView = function(view) {
+      const feedTab = document.getElementById("view-tab-feed");
+      const createTab = document.getElementById("view-tab-create");
+      const gridFeed = document.getElementById("events-grid-feed");
+      const filtersRow = document.getElementById("feed-filters-row");
+      const createPanel = document.getElementById("create-event-panel");
+
+      if (view === 'feed') {
+        feedTab.classList.add("active");
+        createTab.classList.remove("active");
+        gridFeed.style.display = "grid";
+        filtersRow.style.display = "flex";
+        createPanel.style.display = "none";
+      } else {
+        createTab.classList.add("active");
+        feedTab.classList.remove("active");
+        gridFeed.style.display = "none";
+        filtersRow.style.display = "none";
+        createPanel.style.display = "block";
+      }
+    }
+
+    // Filter events roster
+    window.filterEvents = function(cat, btn) {
+      document.querySelectorAll("#feed-filters-row .filter-tab").forEach(t => t.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      currentFilter = cat;
+      renderEventsList();
+    }
+
+    // Render event grid feed
+    function renderEventsList() {
+      const feed = document.getElementById("events-grid-feed");
+      const filtered = eventsList.filter(e => currentFilter === 'all' || e.cat === currentFilter);
+
+      if (filtered.length === 0) {
+        feed.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-gray); font-size:0.85rem;">No upcoming events in this category.</div>`;
+        return;
+      }
+
+      feed.innerHTML = filtered.map(e => {
+        const isRegistered = rsvpList.includes(e.id);
+        const typeBadgeText = e.cat === 'raid' ? 'Raid Event' : e.cat === 'tournament' ? 'Championship' : e.cat === 'meetup' ? 'Meetup' : 'Seminar';
+        
+        return `
+          <div class="event-card ${isRegistered ? 'registered' : ''}">
+            <div class="event-banner" style="background-image: url('${e.banner}');">
+              <span class="event-type-badge">${typeBadgeText}</span>
+            </div>
+            <div class="event-info">
+              <div>
+                <div class="event-date-row">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+                  ${new Date(e.date).toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'})} • ${e.time}
+                </div>
+                <h3 class="event-title">${e.title}</h3>
+                <p class="event-desc-snippet">${e.desc.substring(0, 100)}...</p>
+              </div>
+              
+              <div class="event-meta-row">
+                <span class="event-loc">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="var(--text-gray)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                  ${e.loc}
+                </span>
+                <span class="event-rsvps">${e.rsvps}/${e.cap} RSVP</span>
+              </div>
+              
+              <div class="event-actions">
+                <button class="btn btn-ghost btn-sm" onclick="openDetails(${e.id})">Details</button>
+                <button class="btn btn-primary btn-sm" onclick="handleRSVPClick(${e.id})" ${isRegistered ? 'disabled' : ''}>
+                  ${isRegistered ? 'Going' : 'Register'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      attachSoundListeners();
+    }
+
+    // Render registered panel list
+    function renderRegisteredPanel() {
+      const panel = document.getElementById("registered-list-panel");
+      if (rsvpList.length === 0) {
+        panel.innerHTML = `<div style="padding:10px 0; text-align:center; font-size:0.7rem; color:var(--text-gray);">You have not registered for any events yet.</div>`;
+        return;
+      }
+
+      const registeredEvents = eventsList.filter(e => rsvpList.includes(e.id));
+      panel.innerHTML = registeredEvents.map(e => `
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:10px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="text-align:left;">
+            <strong style="color:#fff; display:block; font-size:0.72rem;">${e.title}</strong>
+            <span style="font-size:0.58rem; color:var(--yellow);">${e.date} • ${e.time}</span>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="padding:4px 8px; font-size:0.6rem; border-color:rgba(255,255,255,0.15);" onclick="viewTicket(${e.id})">Ticket</button>
+        </div>
+      `).join('');
+      attachSoundListeners();
+    }
+
+    // Details Modal controllers
+    window.openDetails = function(id) {
+      selectedEventId = id;
+      const e = eventsList.find(evt => evt.id === id);
+      if (!e) return;
+
+      document.getElementById("det-banner").style.backgroundImage = `url('${e.banner}')`;
+      document.getElementById("det-title").textContent = e.title;
+      document.getElementById("det-date").textContent = `${new Date(e.date).toLocaleDateString(undefined, {month:'long', day:'numeric', year:'numeric'})} • ${e.time}`;
+      document.getElementById("det-desc").textContent = e.desc;
+      document.getElementById("det-venue-title").textContent = e.loc + " Stadium";
+      document.getElementById("det-venue-desc").textContent = `${e.loc} primary activity node. Volumetric arena setup. Max capacity: ${e.cap} trainers.`;
+
+      // Schedule list
+      const sched = document.getElementById("det-schedule");
+      if (e.schedule) {
+        sched.innerHTML = e.schedule.map(s => `
+          <div style="background:rgba(255,255,255,0.02); padding:6px 10px; border-radius:6px; font-size:0.68rem; display:flex; justify-content:space-between;">
+            <span>${s.split(' - ')[1]}</span>
+            <strong style="color:var(--blue);">${s.split(' - ')[0]}</strong>
+          </div>
+        `).join('');
+      }
+
+      // Speakers
+      const spkrContainer = document.getElementById("det-speakers");
+      spkrContainer.innerHTML = `
+        <div class="speaker-item">
+          <div class="speaker-avatar" style="background:#ffd86b url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${e.speakerAvatar || 25}.png') no-repeat center/130%"></div>
+          <div style="text-align:left;">
+            <div class="speaker-name">${e.speaker || "Gym Leader Misty"}</div>
+            <div class="speaker-role">${e.role || "Host / Organizer"}</div>
+          </div>
+        </div>
+      `;
+
+      // Action button
+      const regBtn = document.getElementById("det-register-btn");
+      if (rsvpList.includes(e.id)) {
+        regBtn.disabled = true;
+        regBtn.textContent = "Registered";
+      } else {
+        regBtn.disabled = false;
+        regBtn.textContent = "RSVP / Register";
+      }
+
+      document.getElementById("details-modal").classList.add("show");
+      playSound("success");
+    }
+
+    window.closeDetailsModal = function() {
+      document.getElementById("details-modal").classList.remove("show");
+      playSound("click");
+    }
+
+    // RSVP modal controllers
+    window.handleRSVPClick = function(id) {
+      selectedEventId = id;
+      openRegistrationModal();
+    }
+
+    window.openRegistrationModal = function() {
+      // populate trainer name
+      const userStr = localStorage.getItem("pokemonNexusUser");
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user && user.trainerName) {
+            document.getElementById("rsvp-trainer-name").value = user.trainerName;
+          }
+        } catch(e){}
+      }
+      document.getElementById("register-modal").classList.add("show");
+      playSound("click");
+    }
+
+    window.closeRegisterModal = function() {
+      document.getElementById("register-modal").classList.remove("show");
+      playSound("click");
+    }
+
+    // Confirm registration
+    window.confirmRSVP = function() {
+      if (!selectedEventId) return;
+
+      const e = eventsList.find(evt => evt.id === selectedEventId);
+      if (!e) return;
+
+      // Add to registrations
+      if (!rsvpList.includes(e.id)) {
+        rsvpList.push(e.id);
+        e.rsvps++;
+        localStorage.setItem("nexusRegisteredEvents", JSON.stringify(rsvpList));
+      }
+
+      playSound("success");
+      showToast(`Registered for: ${e.title}!`);
+
+      // Close registration confirmation
+      document.getElementById("register-modal").classList.remove("show");
+      
+      // Close details modal if open
+      document.getElementById("details-modal").classList.remove("show");
+
+      // Save/refresh lists
+      renderEventsList();
+      renderRegisteredPanel();
+      renderCalendar();
+
+      // Show ticket
+      openTicketModal(e);
+    }
+
+    // Ticket modal controllers
+    function openTicketModal(e) {
+      document.getElementById("tkt-evt-name").textContent = e.title;
+      document.getElementById("tkt-evt-date").textContent = `${e.date} at ${e.time}`;
+      
+      const tktCode = "NX-TKT-" + Math.floor(10000 + Math.random() * 90000);
+      document.getElementById("tkt-code").textContent = tktCode;
+
+      const trainerName = document.getElementById("rsvp-trainer-name").value || "Shashank";
+      document.getElementById("tkt-trainer-name").textContent = trainerName;
+
+      document.getElementById("ticket-modal").classList.add("show");
+    }
+
+    window.closeTicketModal = function() {
+      document.getElementById("ticket-modal").classList.remove("show");
+      playSound("click");
+    }
+
+    window.viewTicket = function(id) {
+      const e = eventsList.find(evt => evt.id === id);
+      if (e) {
+        selectedEventId = id;
+        openTicketModal(e);
+        playSound("click");
+      }
+    }
+
+    window.printTicket = function() {
+      playSound("success");
+      showToast("Preparing printable ticket copy... [MOCKED]");
+      alert("Nexus PDF ticket generation started. Print format ready.");
+    }
+
+    // FAQ dropdown handler
+    window.toggleFaq = function(header) {
+      const body = header.nextElementSibling;
+      const icon = header.querySelector("span");
+      const isVisible = body.style.display === "block";
+      
+      // collapse all first
+      document.querySelectorAll(".faq-body").forEach(b => b.style.display = "none");
+      document.querySelectorAll(".faq-header span").forEach(s => s.textContent = "+");
+
+      if (!isVisible) {
+        body.style.display = "block";
+        icon.textContent = "-";
+        playSound("click");
+      } else {
+        body.style.display = "none";
+        icon.textContent = "+";
+      }
+    }
+
+    // Add custom event form submission
+    window.handleCreateEvent = function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById("new-evt-title").value;
+      const cat = document.getElementById("new-evt-cat").value;
+      const date = document.getElementById("new-evt-date").value;
+      const loc = document.getElementById("new-evt-loc").value;
+      const cap = parseInt(document.getElementById("new-evt-cap").value);
+      const desc = document.getElementById("new-evt-desc").value;
+      const speaker = document.getElementById("new-evt-speaker").value || "Gym Host";
+      const role = document.getElementById("new-evt-role").value || "Nexus Battle Referee";
+
+      // banners maps
+      const banners = ["pokemon_region_landscape.png", "pokemon_world_map.png", "ash_pikachu_sunset.png", "trainer_character.png"];
+      const randomBanner = banners[Math.floor(Math.random() * banners.length)];
+      
+      const newEvt = {
+        id: eventsList.length + 1,
+        title,
+        desc,
+        date,
+        time: "12:00",
+        loc,
+        cat,
+        cap,
+        rsvps: 0,
+        banner: randomBanner,
+        speaker,
+        role,
+        speakerAvatar: String(Math.floor(Math.random() * 800) + 1),
+        schedule: ["12:00 - Introduction & Briefing", "12:30 - Main Event Phase", "14:00 - Closing Awards"]
+      };
+
+      eventsList.push(newEvt);
+      localStorage.setItem("nexusEventsCustom", JSON.stringify(eventsList));
+
+      playSound("success");
+      showToast(`Published Event: ${title}!`);
+
+      // Reset form
+      document.getElementById("create-event-form").reset();
+      
+      // Re-render
+      renderEventsList();
+      renderCalendar();
+      initCountdown();
+
+      // Return to feed
+      switchMainView('feed');
+    }
+
+    // Load states
+    function loadSavedState() {
+      // User Profile & Welcome Message
+      const userStr = localStorage.getItem("pokemonNexusUser");
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user) {
+            if (user.role === 'admin' || user.isAdmin) {
+              const adminLink = document.getElementById("adminLink");
+              if (adminLink) adminLink.style.display = "inline-block";
+            }
+            if (user.trainerName) {
+              document.getElementById("trainerWelcome").textContent = "Welcome, " + user.trainerName;
+              document.getElementById("nav-trainer-name").textContent = user.trainerName;
+              document.getElementById("rsvp-trainer-name").value = user.trainerName;
+            }
+            const lvl = user.level || user.trainerLevel || 80;
+            document.getElementById("nav-trainer-level").textContent = "Level " + lvl;
+          }
+        } catch(e) {
+          console.error(e);
+        }
+      }
+
+      // Registrations
+      const rsvpsStr = localStorage.getItem("nexusRegisteredEvents");
+      if (rsvpsStr) {
+        try { rsvpList = JSON.parse(rsvpsStr); } catch(e){}
+      }
+
+      // Custom events list
+      const customEvtsStr = localStorage.getItem("nexusEventsCustom");
+      if (customEvtsStr) {
+        try { eventsList = JSON.parse(customEvtsStr); } catch(e){}
+      }
+    }
+
+    // Initializer
+    window.onload = () => {
+      loadSavedState();
+      initCountdown();
+      renderCalendar();
+      renderEventsList();
+      renderRegisteredPanel();
+    };
+  </script>
+</body>
+</html>

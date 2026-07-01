@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Nexus — Achievements</title>
+  <style>
+    /* ============================================================
+       POKÉMON NEXUS — ACHIEVEMENTS DESIGN SYSTEM
+       ============================================================ */
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg-dark: #020612;
+      --panel-bg: rgba(6, 12, 28, 0.78);
+      --border-blue: rgba(12, 112, 255, 0.28);
+      --yellow: #ffcb05;
+      --red: #ff3d00;
+      --blue: #0c70ff;
+      --green: #10b981;
+      --purple: #a855f7;
+      --orange: #f97316;
+      --silver: #cbd5e1;
+      --bronze: #b45309;
+      --text-gray: #94a3b8;
+      --radius-card: 20px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: #020612 url("background.jpg") center/cover no-repeat fixed;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(6, 12, 28, 0.45) 0%, rgba(2, 6, 18, 0.85) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Ambient Sparks & Volumetric Light */
+    #sparks-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .spark {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(12, 112, 255, 0.25);
+      box-shadow: 0 0 10px rgba(12, 112, 255, 0.6);
+      pointer-events: none;
+      opacity: 0.5;
+      animation: floatSpark 12s linear infinite;
+    }
+
+    @keyframes floatSpark {
+      0% { transform: translateY(105vh) scale(0.8); opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-5vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Fire Sparks for Hero */
+    .fire-sparks-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .fire-spark {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(255, 120, 0, 0.6);
+      box-shadow: 0 0 8px rgba(255, 160, 0, 0.8), 0 0 15px rgba(255, 61, 0, 0.6);
+      pointer-events: none;
+      opacity: 0.8;
+      animation: floatFireSpark 6s linear infinite;
+    }
+
+    @keyframes floatFireSpark {
+      0% { transform: translateY(105%) scale(0.7); opacity: 0; }
+      10% { opacity: 0.9; }
+      90% { opacity: 0.9; }
+      100% { transform: translateY(-10%) translateX(var(--rx, 30px)) scale(1.4); opacity: 0; }
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1180px, 92vw);
+      height: 72px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      border-radius: 24px;
+      background: rgba(5, 8, 18, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(255, 88, 0, 0.35);
+    }
+
+    .nav-brand {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 24px;
+      color: #ffcb05;
+      -webkit-text-stroke: 1.2px #0757a8;
+      text-shadow: 0 0 12px #ff6b00;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 100, 0, 0.22);
+      text-shadow: 0 0 12px #ff7a00;
+    }
+
+    .nav-links a.active {
+      background: rgba(255, 100, 0, 0.35);
+      text-shadow: 0 0 12px #ff7a00;
+      box-shadow: inset 0 0 10px rgba(255, 100, 0, 0.5);
+      border: 1px solid rgba(255, 100, 0, 0.4);
+    }
+
+    .trainer-profile-card-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+      padding: 4px 10px 4px 5px;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+
+    .trainer-avatar-nav {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ffd86b url("trainer_character.png?v=12") no-repeat center 15%/210%;
+      border: 1.5px solid var(--yellow);
+    }
+
+    .trainer-info-block-nav {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .trainer-info-name-nav {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .trainer-info-level-nav {
+      font-size: 0.6rem;
+      color: var(--yellow);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .fire-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -10px;
+      height: 14px;
+      background: linear-gradient(90deg, transparent, #ff3000, #ffd000, #ff3000, transparent);
+      filter: blur(8px);
+      opacity: .8;
+      animation: fireMove 1.8s infinite alternate;
+    }
+
+    @keyframes fireMove {
+      from { transform: translateX(-25px); opacity: .45; }
+      to { transform: translateX(25px); opacity: 1; }
+    }
+
+    /* MAIN CONTAINER SETUP */
+    main.page {
+      max-width: 1180px;
+      width: 92vw;
+      margin: 120px auto 40px;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* HERO SECTION */
+    .hero-panel {
+      position: relative;
+      background: rgba(6, 12, 28, 0.6);
+      border: 1.2px solid rgba(255, 107, 0, 0.3);
+      border-radius: var(--radius-card);
+      padding: 30px 40px;
+      backdrop-filter: blur(12px);
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      gap: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(255, 107, 0, 0.15);
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-tag {
+      color: var(--yellow);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+      display: inline-block;
+      text-shadow: 0 0 10px rgba(255, 203, 5, 0.4);
+    }
+
+    .hero-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.2rem;
+      margin: 0 0 12px;
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-desc {
+      color: var(--text-gray);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0 0 20px;
+    }
+
+    /* XP Progress Bar in Hero */
+    .hero-xp-card {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+    }
+
+    .xp-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .xp-title {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #fff;
+    }
+
+    .xp-values {
+      font-size: 0.75rem;
+      color: var(--yellow);
+      font-weight: 800;
+    }
+
+    .xp-bar {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff3d00, #ffcb05);
+      width: 0;
+      border-radius: 99px;
+      transition: width 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
+      box-shadow: 0 0 10px rgba(255, 61, 0, 0.5);
+    }
+
+    /* STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: rgba(6, 12, 28, 0.78);
+      border: 1.2px solid var(--border-blue);
+      border-radius: var(--radius-card);
+      padding: 16px 20px;
+      backdrop-filter: blur(10px);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(12, 112, 255, 0.4);
+    }
+
+    .stat-val {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.8rem;
+      color: #ffd86b;
+      margin-bottom: 2px;
+      text-shadow: 0 0 12px rgba(255, 216, 107, 0.35);
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-gray);
+    }
+
+    /* GLASS PANELS */
+    .glass-panel {
+      background: var(--panel-bg);
+      border: 1.2px solid var(--border-blue);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), 0 6px 18px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #ffd86b;
+      letter-spacing: 0.08em;
+      margin: 0 0 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* BADGES SECTION */
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 16px;
+      margin-bottom: 5px;
+    }
+
+    .badge-item {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.2px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 16px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-item:hover {
+      background: rgba(255, 203, 5, 0.04);
+      border-color: rgba(255, 203, 5, 0.35);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 15px rgba(255, 203, 5, 0.15);
+    }
+
+    .badge-item.locked {
+      opacity: 0.45;
+      filter: grayscale(1);
+      cursor: not-allowed;
+    }
+
+    .badge-item.locked:hover {
+      transform: none;
+      box-shadow: none;
+      background: rgba(0, 0, 0, 0.35);
+      border-color: rgba(255,255,255,0.06);
+    }
+
+    .badge-icon-wrapper {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .badge-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow-color, rgba(255,203,5,0.4)) 0%, transparent 70%);
+      filter: blur(4px);
+      z-index: 1;
+      opacity: 0.8;
+      animation: pulseGlow 3s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { transform: scale(0.9); opacity: 0.5; }
+      to { transform: scale(1.15); opacity: 0.9; }
+    }
+
+    .badge-img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+    }
+
+    .badge-name {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0;
+    }
+
+    .badge-rarity {
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text-gray);
+    }
+
+    .badge-item:not(.locked) .badge-rarity.mythic {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #c084fc;
+    }
+    .badge-item:not(.locked) .badge-rarity.legendary {
+      background: rgba(249, 115, 22, 0.15);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      color: #ffedd5;
+    }
+    .badge-item:not(.locked) .badge-rarity.epic {
+      background: rgba(12, 112, 255, 0.15);
+      border: 1px solid rgba(12, 112, 255, 0.3);
+      color: #38bdf8;
+    }
+
+    /* SPLIT COLUMNS */
+    .page-columns {
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 20px;
+    }
+
+    /* FILTER TABS */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .filter-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-tab {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      color: var(--text-gray);
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .filter-tab:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    .filter-tab.active {
+      background: rgba(255, 100, 0, 0.25);
+      border-color: rgba(255, 100, 0, 0.4);
+      color: #fff;
+      text-shadow: 0 0 10px #ff7a00;
+      box-shadow: inset 0 0 8px rgba(255, 100, 0, 0.3);
+    }
+
+    /* ACHIEVEMENT FEED */
+    .achievements-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .achievement-card {
+      background: rgba(6, 12, 28, 0.4);
+      border: 1px solid rgba(12, 112, 255, 0.15);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .achievement-card:hover {
+      background: rgba(6, 12, 28, 0.55);
+      border-color: rgba(12, 112, 255, 0.3);
+      transform: translateX(4px);
+    }
+
+    .achievement-card.completed {
+      border-color: rgba(16, 185, 129, 0.25);
+      background: rgba(6, 12, 28, 0.5);
+    }
+    .achievement-card.completed:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .ach-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .achievement-card.completed .ach-icon-box {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--green);
+    }
+
+    .ach-details {
+      flex: 1;
+      text-align: left;
+    }
+
+    .ach-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .ach-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+    }
+
+    .achievement-card.completed .ach-title {
+      color: #fff;
+    }
+
+    .ach-category-pill {
+      font-size: 0.52rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(12, 112, 255, 0.12);
+      border: 1px solid rgba(12, 112, 255, 0.25);
+      color: #38bdf8;
+    }
+
+    .achievement-card.completed .ach-category-pill {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: var(--green);
+    }
+
+    .ach-desc {
+      font-size: 0.72rem;
+      color: var(--text-gray);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .ach-status-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .ach-xp {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--yellow);
+    }
+
+    .ach-date {
+      font-size: 0.58rem;
+      color: var(--text-gray);
+    }
+
+    /* Card Progress Bar for in-progress achievements */
+    .ach-card-progress {
+      width: 110px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ach-progress-txt {
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: var(--text-gray);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ach-progress-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .ach-progress-bar-fill {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 99px;
+    }
+
+    /* TIMELINE SECTION */
+    .timeline-container {
+      position: relative;
+      padding-left: 20px;
+      border-left: 2px solid rgba(12, 112, 255, 0.15);
+      margin-left: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .timeline-node {
+      position: relative;
+      text-align: left;
+    }
+
+    .timeline-node::before {
+      content: "";
+      position: absolute;
+      left: -27px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #020612;
+      border: 3px solid var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+      z-index: 2;
+    }
+
+    .timeline-node.completed::before {
+      border-color: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .timeline-node.milestone::before {
+      border-color: var(--yellow);
+      box-shadow: 0 0 10px var(--yellow);
+      width: 14px;
+      height: 14px;
+      left: -28px;
+      top: 3px;
+    }
+
+    .timeline-time {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--text-gray);
+      margin-bottom: 2px;
+    }
+
+    .timeline-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 2px;
+    }
+
+    .timeline-desc {
+      font-size: 0.65rem;
+      color: var(--text-gray);
+      margin: 0;
+    }
+
+    /* BUTTON AND MISC */
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 11px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #ff3d00, #ffcb05);
+      color: #130700;
+      box-shadow: 0 0 15px rgba(255, 61, 0, 0.4);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 25px rgba(255, 61, 0, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    /* CUSTOM TOAST */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 50px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1.5px solid var(--yellow);
+      border-radius: 12px;
+      padding: 12px 24px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.82rem;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 203, 5, 0.25);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.2, 1);
+    }
+
+    #toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    /* RESPONSIVE LAYOUTS */
+    @media (max-width: 900px) {
+      .hero-panel {
+        grid-template-columns: 1fr;
+        padding: 30px;
+      }
+      .page-columns {
+        grid-template-columns: 1fr;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .nav-links {
+        gap: 4px;
+      }
+      .nav-links a {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .navbar {
+        height: auto;
+        padding: 8px 16px;
+        flex-direction: column;
+        gap: 8px;
+        border-radius: 16px;
+        top: 8px;
+      }
+      .nav-links {
+        overflow-x: auto;
+        max-width: 100%;
+        width: 100%;
+        justify-content: flex-start;
+        padding-bottom: 4px;
+      }
+      .nav-links::-webkit-scrollbar {
+        display: none;
+      }
+      main.page {
+        margin-top: 150px;
+      }
+      .trainer-profile-card-nav {
+        margin-left: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sparks Container -->
+  <div id="sparks-container"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <svg class="pokeball-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:1.2em;height:1.2em;vertical-align:middle;margin-right:8px;display:inline-block;filter:drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));">
+        <circle cx="50" cy="50" r="48" fill="#fff" stroke="#000" stroke-width="8" />
+        <path d="M 50,50 M 2,50 A 48,48 0 0,1 98,50 Z" fill="#ff1c1c" stroke="#000" stroke-width="8" />
+        <line x1="2" y1="50" x2="98" y2="50" stroke="#000" stroke-width="8" />
+        <circle cx="50" cy="50" r="18" fill="#fff" stroke="#000" stroke-width="8" />
+        <circle cx="50" cy="50" r="8" fill="#fff" stroke="#000" stroke-width="2" />
+      </svg>
+      Pokémon Nexus
+      <span id="trainerWelcome" style="font-size:13px;color:#ffd86b;margin-left:10px"></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="pokedex.html">Pokédex</a>
+      <a href="battle.html">Battle</a>
+      <a href="kingdom-map.html">Kingdom Map</a>
+      <a href="inventory.html">Inventory</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="profile.html">Profile</a>
+      <a href="achievements.html" class="active">Achievements</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="events.html">Events</a>
+      <a href="admin/admin.html" id="adminLink" style="display:none">Admin</a>
+      
+      <!-- Active Trainer Avatar inside navbar -->
+      <div class="trainer-profile-card-nav" onclick="location.href='profile.html'">
+        <div class="trainer-avatar-nav"></div>
+        <div class="trainer-info-block-nav">
+          <span class="trainer-info-name-nav" id="nav-trainer-name">Shashank</span>
+          <span class="trainer-info-level-nav" id="nav-trainer-level">Level 80</span>
+        </div>
+      </div>
+    </div>
+    <div class="fire-strip"></div>
+  </nav>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <!-- MAIN PAGE CONTENT -->
+  <main class="page">
+    
+    <!-- HERO PANEL -->
+    <section class="hero-panel">
+      <!-- Fire particles inside hero -->
+      <div class="fire-sparks-container" id="hero-fire-sparks"></div>
+      
+      <div class="hero-content">
+        <span class="hero-tag">Trainer Milestones</span>
+        <h1 class="hero-title">Achievements Directory</h1>
+        <p class="hero-desc">Complete special tasks, defeat formidable opponents, collect legendary Pokémon, and explore deep regions to earn Trainer XP, exclusive badges, and prestigious ranks.</p>
+        <button class="btn btn-primary" onclick="showToast('Special event achievements coming soon!')">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+          Missions Guide
+        </button>
+      </div>
+
+      <div class="hero-xp-card" style="position: relative; z-index: 3;">
+        <div class="xp-header-row">
+          <span class="xp-title" id="xp-level-display">Trainer Level 80</span>
+          <span class="xp-values" id="xp-numbers-display">74,200 / 100,000 XP</span>
+        </div>
+        <div class="xp-bar">
+          <div class="xp-bar-fill" id="xp-bar-fill"></div>
+        </div>
+        <div style="font-size: 0.65rem; color: var(--text-gray); margin-top: 10px; text-align: left; line-height: 1.4;">
+          Earn <strong>25,800 XP</strong> more to reach Level 81. Catching Pokémon gives <strong>+100 XP</strong>, winning battles gives <strong>+300 XP</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS GRID -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-val" id="stat-unlocked">6 / 10</span>
+        <span class="stat-label">Achievements Unlocked</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="stat-points">3,350</span>
+        <span class="stat-label">Total Points Earned</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="stat-percentage">60%</span>
+        <span class="stat-label">Completion Progress</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="stat-badges">4 / 6</span>
+        <span class="stat-label">Badges Collected</span>
+      </div>
+    </section>
+
+    <!-- BADGES SECTION -->
+    <section class="glass-panel">
+      <h2 class="section-title">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--yellow)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+        Exclusive Medal Collection
+      </h2>
+      <div class="badges-grid" id="badges-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- SPLIT CONTENT COLUMNS -->
+    <div class="page-columns">
+      
+      <!-- LEFT COLUMN: FEED -->
+      <section>
+        <div class="filter-row" id="filter-tabs-row">
+          <button class="filter-tab active" onclick="filterAchievements('all', this)">All achievements</button>
+          <button class="filter-tab" onclick="filterAchievements('battle', this)">Combat</button>
+          <button class="filter-tab" onclick="filterAchievements('collection', this)">Collection</button>
+          <button class="filter-tab" onclick="filterAchievements('exploration', this)">Exploration</button>
+          <button class="filter-tab" onclick="filterAchievements('secret', this)">Secrets</button>
+        </div>
+        
+        <div class="achievements-feed" id="achievements-feed">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: TIMELINE -->
+      <section class="glass-panel" style="height: fit-content;">
+        <h2 class="section-title">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--blue)"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.3L11 12.8V7h1.5v4.9l3.55 2.1-.76 1.3z"/></svg>
+          Unlock Timeline
+        </h2>
+        <div class="timeline-container" id="timeline-container">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Audio Context Synthesizer
+    function playSound(type) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+        if (type === 'hover') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(880, now + 0.05);
+          gain.gain.setValueAtTime(0.012, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(580, now);
+          osc.frequency.setValueAtTime(320, now + 0.06);
+          gain.gain.setValueAtTime(0.025, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+          gain.gain.setValueAtTime(0.035, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        }
+      } catch (err) {
+        console.warn("Audio Context blocked:", err);
+      }
+    }
+
+    // Attach click handlers to audio
+    function attachSoundListeners() {
+      document.querySelectorAll("button, a, .filter-tab, .badge-item:not(.locked), .achievement-card").forEach(elem => {
+        elem.addEventListener("mouseenter", () => playSound("hover"));
+        elem.addEventListener("click", () => playSound("click"));
+      });
+    }
+
+    // Toast notifications
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    // Spark particles
+    const sparksContainer = document.getElementById("sparks-container");
+    for (let i = 0; i < 20; i++) {
+      const spark = document.createElement("div");
+      spark.className = 'spark';
+      spark.style.left = Math.random() * 100 + "vw";
+      spark.style.animationDuration = (8 + Math.random() * 6) + "s";
+      spark.style.animationDelay = Math.random() * 4 + "s";
+      sparksContainer.appendChild(spark);
+    }
+
+    // Fire sparks particles in Hero
+    const heroFireSparks = document.getElementById("hero-fire-sparks");
+    for (let i = 0; i < 15; i++) {
+      const fspark = document.createElement("div");
+      fspark.className = 'fire-spark';
+      fspark.style.left = Math.random() * 100 + "%";
+      fspark.style.animationDuration = (4 + Math.random() * 4) + "s";
+      fspark.style.animationDelay = Math.random() * 3 + "s";
+      fspark.style.setProperty('--rx', (Math.random() * 60 - 30) + 'px');
+      heroFireSparks.appendChild(fspark);
+    }
+
+    // Mock Datasets
+    const badgesData = [
+      { name: "Kanto Master", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/badge-boulder.png", rarity: "legendary", color: "#f59e0b", locked: false },
+      { name: "Arena Legend", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/badge-marsh.png", rarity: "mythic", color: "#a855f7", locked: false },
+      { name: "Shiny Hunter", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/shiny-charm.png", rarity: "epic", color: "#38bdf8", locked: false },
+      { name: "Hoenn Pioneer", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/badge-stone.png", rarity: "epic", color: "#10b981", locked: false },
+      { name: "Unova Emperor", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/badge-trio.png", rarity: "legendary", color: "#ef4444", locked: true },
+      { name: "Nexus Overlord", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/oval-charm.png", rarity: "mythic", color: "#ec4899", locked: true }
+    ];
+
+    const achievementsList = [
+      { id: 1, title: "First Steps", desc: "Successfully catch your very first Pokémon.", xp: 100, cat: "exploration", status: "completed", date: "2026-06-15" },
+      { id: 2, title: "Novice Battler", desc: "Win 5 battles in the Nexus arena grid.", xp: 250, cat: "battle", status: "completed", date: "2026-06-18" },
+      { id: 3, title: "Pokedex Enthusiast", desc: "Register 50 unique Pokémon in your database.", xp: 500, cat: "collection", status: "progress", progress: { current: 38, total: 50 } },
+      { id: 4, title: "Master Champion", desc: "Reach Level 80 and unlock the Master Champion tier.", xp: 1000, cat: "battle", status: "completed", date: "2026-06-30" },
+      { id: 5, title: "Gym Crusher", desc: "Defeat all 8 original Kanto Gym leaders.", xp: 800, cat: "battle", status: "completed", date: "2026-06-25" },
+      { id: 6, title: "Region Explorer", desc: "Fully explore 5 regions on the Kingdom Map.", xp: 600, cat: "exploration", status: "progress", progress: { current: 4, total: 5 } },
+      { id: 7, title: "Shiny Gazer", desc: "Encounter and capture a Shiny Pokémon variant.", xp: 1200, cat: "collection", status: "locked" },
+      { id: 8, title: "Wealthy Trainer", desc: "Accumulate 10,000 trainer points or credits.", xp: 700, cat: "collection", status: "completed", date: "2026-06-28" },
+      { id: 9, title: "Secret Chambers", desc: "Discover the hidden chamber inside Mt. Chimney.", xp: 1500, cat: "secret", status: "locked" },
+      { id: 10, title: "Nexus Overlord", desc: "Reach Rank 1 on the Global Trainer Leaderboard.", xp: 2500, cat: "secret", status: "locked" }
+    ];
+
+    const timelineData = [
+      { time: "2026-06-30 18:45", title: "Master Champion Unlocked", desc: "Earned +1,000 XP and reached Trainer level 80", milestone: true },
+      { time: "2026-06-28 10:30", title: "Completed: Wealthy Trainer", desc: "Earned +700 XP for accumulating points" },
+      { time: "2026-06-25 14:15", title: "Kanto Master Badge Gained", desc: "Defeated all 8 Gym Leaders", milestone: true },
+      { time: "2026-06-18 11:00", title: "Completed: Novice Battler", desc: "Won 5 battles in the Nexus arena grid" },
+      { time: "2026-06-15 09:20", title: "Completed: First Steps", desc: "Caught first Pokémon (Pikachu)" }
+    ];
+
+    // Render Badge collection
+    function renderBadges() {
+      const grid = document.getElementById("badges-grid");
+      grid.innerHTML = badgesData.map(b => `
+        <div class="badge-item ${b.locked ? 'locked' : ''}" onclick="${b.locked ? '' : `showToast('Unlocked Badge: ${b.name}')`}">
+          <div class="badge-icon-wrapper">
+            ${b.locked ? '' : `<div class="badge-glow" style="--glow-color: ${b.color}80"></div>`}
+            <img class="badge-img" src="${b.img}" alt="${b.name}">
+          </div>
+          <span class="badge-name">${b.name}</span>
+          <span class="badge-rarity ${b.rarity}">${b.rarity}</span>
+        </div>
+      `).join('');
+    }
+
+    // Render achievements feed
+    function renderAchievements(filter = 'all') {
+      const feed = document.getElementById("achievements-feed");
+      const filtered = achievementsList.filter(a => filter === 'all' || a.cat === filter);
+      
+      if (filtered.length === 0) {
+        feed.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-gray); font-size: 0.85rem;">No achievements found in this category.</div>`;
+        return;
+      }
+
+      feed.innerHTML = filtered.map(a => {
+        let statusHtml = '';
+        if (a.status === 'completed') {
+          statusHtml = `
+            <div class="ach-status-col">
+              <span class="ach-xp">+${a.xp} XP</span>
+              <span class="ach-date">Unlocked ${a.date}</span>
+            </div>
+          `;
+        } else if (a.status === 'progress') {
+          const pct = Math.round((a.progress.current / a.progress.total) * 100);
+          statusHtml = `
+            <div class="ach-card-progress">
+              <div class="ach-progress-txt">
+                <span>Progress</span>
+                <span>${a.progress.current}/${a.progress.total} (${pct}%)</span>
+              </div>
+              <div class="ach-progress-bar">
+                <div class="ach-progress-bar-fill" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        } else {
+          statusHtml = `
+            <div class="ach-status-col" style="opacity: 0.6">
+              <span class="ach-xp" style="color: var(--text-gray)">+${a.xp} XP</span>
+              <span style="font-size: 0.58rem; font-weight: 700; color: var(--red); text-transform: uppercase;">Locked</span>
+            </div>
+          `;
+        }
+
+        const iconSvg = a.status === 'completed' 
+          ? `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`
+          : `<svg viewBox="0 0 24 24" width="20" height="20" fill="var(--text-gray)"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>`;
+
+        return `
+          <div class="achievement-card ${a.status === 'completed' ? 'completed' : ''}">
+            <div class="ach-icon-box">${iconSvg}</div>
+            <div class="ach-details">
+              <div class="ach-title-row">
+                <h3 class="ach-title">${a.title}</h3>
+                <span class="ach-category-pill">${a.cat}</span>
+              </div>
+              <p class="ach-desc">${a.desc}</p>
+            </div>
+            ${statusHtml}
+          </div>
+        `;
+      }).join('');
+      attachSoundListeners();
+    }
+
+    // Filter achievements callback
+    window.filterAchievements = function(cat, btn) {
+      document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      renderAchievements(cat);
+    }
+
+    // Render unlock timeline
+    function renderTimeline() {
+      const container = document.getElementById("timeline-container");
+      container.innerHTML = timelineData.map(t => `
+        <div class="timeline-node ${t.milestone ? 'milestone' : ''} completed">
+          <div class="timeline-time">${t.time}</div>
+          <h4 class="timeline-title">${t.title}</h4>
+          <p class="timeline-desc">${t.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    // Load active trainer data
+    function initTrainerData() {
+      const userStr = localStorage.getItem("pokemonNexusUser");
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          if (user) {
+            // Update admin link
+            if (user.role === 'admin' || user.isAdmin) {
+              const adminLink = document.getElementById("adminLink");
+              if (adminLink) adminLink.style.display = "inline-block";
+            }
+            // Update nav welcoming
+            if (user.trainerName) {
+              document.getElementById("trainerWelcome").textContent = "Welcome, " + user.trainerName;
+              document.getElementById("nav-trainer-name").textContent = user.trainerName;
+            }
+            // Update level
+            const lvl = user.level || user.trainerLevel || 80;
+            document.getElementById("nav-trainer-level").textContent = "Level " + lvl;
+            document.getElementById("xp-level-display").textContent = "Trainer Level " + lvl;
+            
+            // Stats
+            const unlockedCount = achievementsList.filter(a => a.status === 'completed').length;
+            document.getElementById("stat-unlocked").textContent = `${unlockedCount} / ${achievementsList.length}`;
+            document.getElementById("stat-percentage").textContent = `${Math.round((unlockedCount / achievementsList.length) * 100)}%`;
+          }
+        } catch(e) {
+          console.error(e);
+        }
+      }
+    }
+
+    // Initializer
+    window.onload = () => {
+      renderBadges();
+      renderAchievements();
+      renderTimeline();
+      initTrainerData();
+      
+      // Animate XP bar
+      setTimeout(() => {
+        document.getElementById("xp-bar-fill").style.width = "74.2%";
+      }, 150);
+    };
+  </script>
+</body>
+</html>
